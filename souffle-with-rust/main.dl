@@ -1,0 +1,12 @@
+// Import from rust
+.functor double(number):number
+
+.decl Input(value:number)
+Input(10).
+Input(100).
+
+.decl Output(in:number, doubled:number)
+Output(in, doubled) :-
+           Input(in), doubled = @double(in).
+
+.output Output(IO=stdout,headers=true)

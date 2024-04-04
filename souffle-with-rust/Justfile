@@ -1,0 +1,29 @@
+ARTIFACT := if os() == "macos" { "libfunctors.dylib" } else { "libfunctors.so" }
+MAIN_FILE := "main.dl"
+
+# Build and run normally
+default: _build run
+
+# Souffle: Run main file
+run:
+    just _build
+    souffle {{MAIN_FILE}}
+
+# Souffle: Run, but surpress build output
+quiet-run:
+    @just _build --quiet
+    @souffle {{MAIN_FILE}}
+
+# Souffle: Re-build and quiet run on change
+watch:
+    watchexec -c --exts rs,dl  "just quiet-run"
+
+[no-exit-message]
+@_build *ARGS:
+    cargo build {{ARGS}}
+    just _clean 2>/dev/null
+    cp target/debug/{{ARTIFACT}} ./
+
+[no-exit-message]
+_clean:
+    -rm {{ARTIFACT}}
