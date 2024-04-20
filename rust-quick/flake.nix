@@ -27,11 +27,12 @@
         {
             devShell = with pkgs; mkShell {
               packages = with pkgs; [
-                cargo rustc rustfmt
-                rustPackages.clippy
+                cargo rustc
+                rustfmt rustPackages.clippy
                 rust-analyzer
-              ] ++ lib.optionals stdenv.isDarwin darwinInputs;
 
+                just watchexec
+              ] ++ lib.optionals stdenv.isDarwin darwinInputs;
           };
         });
 }

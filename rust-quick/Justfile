@@ -1,0 +1,8 @@
+__default:
+    just --list
+
+run:
+    cargo run
+
+watch:
+    watchexec -e "*.rs" -- just run
