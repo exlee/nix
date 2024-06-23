@@ -11,6 +11,10 @@
         path = ./souffle-with-rust;
         description = "Soufflé with Rust Functors";
       };
+      instant-prolog = {
+        path = ./instant-prolog;
+        description = "Instant SWI-Prolog Development";
+      };
     };
   };
 }

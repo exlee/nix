@@ -1,0 +1,32 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  MAIN_FILE: "main.pl"
+  MAIN_GOAL: "main"
+  WATCH_CMD: "run-halting"
+
+tasks:
+  default:
+    silent: true
+    cmd: task --list
+
+  run:
+    desc: "Executes goal <{{.MAIN_GOAL}}> on <{{.MAIN_FILE}}>"
+    aliases: [r]
+    cmd: swipl --on-error=halt -t {{.MAIN_GOAL}} {{.MAIN_FILE}}
+
+  run-halting:
+    desc: As <run> but adds newline and wraps in halt
+    aliases: [rh]
+    cmds:
+      - swipl --on-error=halt -g {{.MAIN_GOAL}} -g halt {{.MAIN_FILE}} 
+    ignore_error: true
+    silent: true
+
+  watch:
+    desc: Watches .pl files while running <{{.WATCH_CMD}}>
+    aliases: [w]
+    cmd: watchexec -c -q -e pl --stop-timeout 500ms -r -- task {{.WATCH_CMD}}
+    silent: true
